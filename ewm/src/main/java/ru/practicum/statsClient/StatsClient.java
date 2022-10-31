@@ -26,7 +26,7 @@ public class StatsClient {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public StatsClient(@Value("http://localhost:9090") String baseUrl,
+    public StatsClient(@Value("http://stats-server:9090") String baseUrl,
                        RestTemplateBuilder builder,
                        ObjectMapper objectMapper) {
         this.restTemplate = builder
