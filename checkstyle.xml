@@ -35,10 +35,10 @@
 		</module>
 
 		<module name="LeftCurly"/>
-		<module name="RightCurly">
-			<property name="id" value="RightCurlySame"/>
-			<property name="tokens" value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_DO"/>
-		</module>
+<!--		<module name="RightCurly">-->
+<!--			<property name="id" value="RightCurlySame"/>-->
+<!--			<property name="tokens" value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_DO"/>-->
+<!--		</module>-->
 		<module name="RightCurly">
 			<property name="id" value="RightCurlyAlone"/>
 			<property name="option" value="alone"/>
@@ -167,7 +167,7 @@
 <!--			<property name="separateLineBetweenGroups" value="true"/>-->
 <!--		</module>-->
 		<module name="UnusedImports"/>
-		<module name="MethodParamPad"/>
+<!--		<module name="MethodParamPad"/>-->
 		<module name="NoWhitespaceBefore">
 			<property name="allowLineBreaks" value="true"/>
 			<property name="tokens" value="COMMA, SEMI, POST_INC, POST_DEC, DOT, ELLIPSIS, METHOD_REF"/>

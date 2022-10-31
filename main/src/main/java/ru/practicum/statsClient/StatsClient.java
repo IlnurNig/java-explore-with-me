@@ -47,13 +47,13 @@ public class StatsClient {
                         .timestamp(LocalDateTime.now())
                         .build()
         );
-        String POST_PREFIX = "/hit";
-        restTemplate.postForEntity(POST_PREFIX, requestBody, String.class);
+        String path = "/hit";
+        restTemplate.postForEntity(path, requestBody, String.class);
     }
 
     public List<ViewStats> getViewStats(Map<String, String> param) throws Exception {
-        String GET_PREFIX = "/stats";
-        ResponseEntity<String> response = restTemplate.getForEntity(GET_PREFIX, String.class, param);
+        String path = "/stats";
+        ResponseEntity<String> response = restTemplate.getForEntity(path, String.class, param);
         if (response.getStatusCode().is2xxSuccessful()) {
             String body = response.getBody();
             return objectMapper.readValue(body, new TypeReference<List<ViewStats>>() {
