@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS compilation_event, compilations, participation_requests, events, categories, users CASCADE;
+-- DROP TABLE IF EXISTS compilation_event, compilations, participation_requests, events, categories, users CASCADE;
 
 CREATE TABLE IF NOT EXISTS categories
 (
@@ -73,4 +73,25 @@ CREATE TABLE IF NOT EXISTS compilation_event
     CONSTRAINT fk_event_id FOREIGN KEY (event_id) REFERENCES events (id),
     CONSTRAINT fr_compilation_id FOREIGN KEY (compilation_id) REFERENCES compilations (id),
     CONSTRAINT pk_compilation_event PRIMARY KEY (compilation_id, event_id)
-)
+);
+
+create table IF NOT EXISTS revinfo
+(
+    rev      integer not null
+        primary key,
+    revtstmp bigint
+);
+
+create table IF NOT EXISTS categories_aud
+(
+    id      bigint  not null,
+    rev     integer not null
+        constraint fk6ti58h8w0q47oacscu06hcite
+            references revinfo,
+    revtype smallint,
+    name    varchar(255),
+    primary key (id, rev),
+    CONSTRAINT fk_rev_id FOREIGN KEY (rev) REFERENCES revinfo (rev)
+
+);
+

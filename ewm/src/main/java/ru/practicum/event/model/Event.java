@@ -25,6 +25,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 2048)
     private String annotation;
 
     @ManyToOne
@@ -34,6 +35,7 @@ public class Event {
     @CreationTimestamp
     private LocalDateTime createdOn;
 
+    @Column(length = 2048)
     private String description;
 
     private LocalDateTime eventDate;

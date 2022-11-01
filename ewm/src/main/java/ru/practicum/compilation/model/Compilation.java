@@ -20,6 +20,7 @@ public class Compilation {
 
     private Boolean pinned;
 
+    @Column(length = 2048)
     private String title;
 
     @ManyToMany
