@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 @Builder
@@ -12,6 +13,7 @@ import javax.validation.constraints.Size;
 @Setter
 public class CategoryDto {
 
+    @Positive
     private Long id;
 
     @NotBlank

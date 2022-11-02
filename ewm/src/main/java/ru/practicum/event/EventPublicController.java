@@ -42,8 +42,7 @@ public class EventPublicController {
 
     @GetMapping("{eventId}")
     public EventFullDto getPublishedEventById(@PathVariable @NotNull Long eventId,
-                                              HttpServletRequest request)
-            throws Exception {
+                                              HttpServletRequest request) {
         log.info("getPublishedEventById  with eventId: {}, request: {}", eventId, request);
         statsClient.postEndpointHit(request, "ewm-main-service");
         return eventMapper.toFullDto(eventService.getByIdAndState(eventId, EventState.PUBLISHED));
@@ -62,8 +61,7 @@ public class EventPublicController {
              @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
              @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
              @Positive @RequestParam(name = "size", defaultValue = "10") Integer size,
-             HttpServletRequest request)
-            throws Exception {
+             HttpServletRequest request) {
 
         log.info("getAllByCriteria with text: {}, categories: {}, paid: {}, onlyAvailable: {}, sort: {}, " +
                         "rangeStart: {}, rangeEnd: {}, from: {}, size: {}",

@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.exception.exceptionClass.ExceptionConflict;
-import ru.practicum.exception.exceptionClass.ExceptionNotFound;
 import ru.practicum.user.dto.UserDto;
 import ru.practicum.user.dto.UserMapper;
 import ru.practicum.user.model.User;
@@ -33,14 +31,14 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto create(@Valid @RequestBody UserDto userDto) throws ExceptionConflict {
+    public UserDto create(@Valid @RequestBody UserDto userDto) {
         log.info("createUser: {}", userDto);
         User user = userMapper.toEntity(userDto);
         return userMapper.toDto(userService.createUser(user));
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable @NotNull Long id) throws ExceptionNotFound {
+    public void delete(@PathVariable @NotNull Long id) {
         log.info("deleteUser with id: {}", id);
         userService.deleteUser(id);
     }

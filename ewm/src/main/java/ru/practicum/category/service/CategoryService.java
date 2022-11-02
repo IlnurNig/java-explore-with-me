@@ -26,7 +26,7 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category update(Category category) throws ExceptionNotFound {
+    public Category update(Category category) {
         log.info("Update category {}", category);
         validateId(category.getId());
         return categoryRepository.save(category);
@@ -40,19 +40,19 @@ public class CategoryService {
         return categoryRepository.findAll(pageable).getContent();
     }
 
-    public Category getById(Long id) throws ExceptionNotFound {
+    public Category getById(Long id) {
         log.info("getById category with id {}", id);
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new ExceptionNotFound(String.format("Category with Id=%d is missing", id)));
     }
 
-    public void delete(Long id) throws ExceptionNotFound {
+    public void delete(Long id) {
         log.info("delete category with id {}", id);
         validateId(id);
         categoryRepository.deleteById(id);
     }
 
-    private void validateId(long id) throws ExceptionNotFound {
+    private void validateId(long id) {
         if (containsId(id)) {
             log.debug("Category with Id={} is missing", id);
             throw new ExceptionNotFound(String.format("Category with Id=%d is missing", id));

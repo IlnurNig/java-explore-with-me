@@ -12,7 +12,6 @@ import ru.practicum.event.model.Criteria;
 import ru.practicum.event.model.Event;
 import ru.practicum.event.model.EventState;
 import ru.practicum.event.service.EventService;
-import ru.practicum.exception.exceptionClass.ExceptionNotFound;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -68,23 +67,20 @@ public class EventAdminController {
 
 
     @PatchMapping("{eventId}/publish")
-    public EventFullDto setPublishState(@PathVariable @NotNull Long eventId)
-            throws ExceptionNotFound {
+    public EventFullDto setPublishState(@PathVariable @NotNull Long eventId) {
         log.info("setPublishState with eventId: {}", eventId);
         return eventMapper.toFullDto(eventService.setStateEvent(eventId, EventState.PUBLISHED));
     }
 
     @PatchMapping("{eventId}/reject")
-    public EventFullDto setCanceledState(@PathVariable @NotNull Long eventId)
-            throws ExceptionNotFound {
+    public EventFullDto setCanceledState(@PathVariable @NotNull Long eventId) {
         log.info("setCanceledState with eventId: {}", eventId);
         return eventMapper.toFullDto(eventService.setStateEvent(eventId, EventState.CANCELED));
     }
 
     @PutMapping("{eventId}")
     public EventFullDto updateEvent(@PathVariable @NotNull Long eventId,
-                                    @RequestBody NewEventDto eventDto)
-            throws ExceptionNotFound {
+                                    @RequestBody NewEventDto eventDto) {
         log.info("updateEvent with eventId: {}, eventDto: {}", eventId, eventDto);
         Event event = eventMapper.toEntity(eventDto);
         event.setId(eventId);

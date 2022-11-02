@@ -9,9 +9,6 @@ import ru.practicum.event.dto.EventMapper;
 import ru.practicum.event.dto.NewEventDto;
 import ru.practicum.event.model.Event;
 import ru.practicum.event.service.EventService;
-import ru.practicum.exception.exceptionClass.ExceptionBadRequest;
-import ru.practicum.exception.exceptionClass.ExceptionConflict;
-import ru.practicum.exception.exceptionClass.ExceptionNotFound;
 import ru.practicum.participationRequest.dto.ParticipationRequestDto;
 import ru.practicum.participationRequest.dto.ParticipationRequestMapper;
 
@@ -45,7 +42,7 @@ public class EventPrivateController {
 
     @PostMapping
     public EventFullDto create(@PathVariable @NotNull Long userId,
-                               @Valid @RequestBody NewEventDto eventDto) throws ExceptionNotFound {
+                               @Valid @RequestBody NewEventDto eventDto) {
         log.info("create event with userId: {}, eventDto: {}", userId, eventDto);
         Event event = eventMapper.toEntity(eventDto, userId);
         return eventMapper.toFullDto(eventService.create(event));
@@ -63,15 +60,14 @@ public class EventPrivateController {
 
     @GetMapping("{eventId}")
     public EventFullDto getByIdAndInitiatorId(@PathVariable @NotNull Long userId,
-                                              @PathVariable @NotNull Long eventId) throws ExceptionNotFound {
+                                              @PathVariable @NotNull Long eventId) {
         log.info("getByIdAndInitiatorId with userId: {}, eventId: {}", userId, eventId);
         return eventMapper.toFullDto(eventService.getByIdAndInitiatorId(userId, eventId));
     }
 
     @GetMapping("{eventId}/requests")
     public List<ParticipationRequestDto> getRequestsByUserIdAndEventId(@PathVariable @NotNull Long userId,
-                                                                       @PathVariable @NotNull Long eventId)
-            throws ExceptionNotFound {
+                                                                       @PathVariable @NotNull Long eventId) {
         log.info("get request by userId: {}, eventId: {}", userId, eventId);
         return requestMapper.toDto(eventService.getRequestsByUserIdAndEventId(userId, eventId));
     }
@@ -79,8 +75,7 @@ public class EventPrivateController {
     @PatchMapping("{eventId}/requests/{reqId}/confirm")
     public ParticipationRequestDto confirm(@PathVariable @NotNull Long reqId,
                                            @PathVariable @NotNull Long userId,
-                                           @PathVariable @NotNull Long eventId)
-            throws ExceptionBadRequest, ExceptionConflict, ExceptionNotFound {
+                                           @PathVariable @NotNull Long eventId) {
         log.info("confirm request with reqId: {}, userId: {}, eventId: {}", reqId, userId, eventId);
         return requestMapper.toDto(eventService.confirmRequest(reqId, userId, eventId));
     }
@@ -88,22 +83,21 @@ public class EventPrivateController {
     @PatchMapping("{eventId}/requests/{reqId}/reject")
     public ParticipationRequestDto reject(@PathVariable @NotNull Long reqId,
                                           @PathVariable @NotNull Long userId,
-                                          @PathVariable @NotNull Long eventId)
-            throws ExceptionBadRequest, ExceptionNotFound {
+                                          @PathVariable @NotNull Long eventId) {
         log.info("reject request with reqId: {}, userId: {}, eventId: {}", reqId, userId, eventId);
         return requestMapper.toDto(eventService.rejectRequest(reqId, userId, eventId));
     }
 
     @PatchMapping("{eventId}")
     public EventFullDto cancelEvent(@PathVariable @NotNull Long userId,
-                                    @PathVariable @NotNull Long eventId) throws ExceptionNotFound {
+                                    @PathVariable @NotNull Long eventId) {
         log.info("cancel event with userId: {}, eventId: {}", userId, eventId);
         return eventMapper.toFullDto(eventService.cancelEvent(userId, eventId));
     }
 
     @PatchMapping
     public EventFullDto update(@PathVariable @NotNull Long userId,
-                               @RequestBody NewEventDto eventDto) throws ExceptionNotFound {
+                               @RequestBody NewEventDto eventDto) {
         log.info("update event with userId: {}, eventDto: {}", userId, eventDto);
         Event event = eventMapper.toEntity(eventDto, userId);
         return eventMapper.toFullDto(eventService.update(event));

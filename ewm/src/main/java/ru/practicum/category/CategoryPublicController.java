@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.category.dto.CategoryDto;
 import ru.practicum.category.dto.CategoryMapper;
 import ru.practicum.category.service.CategoryService;
-import ru.practicum.exception.exceptionClass.ExceptionNotFound;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -31,7 +30,7 @@ public class CategoryPublicController {
     }
 
     @GetMapping("{catId}")
-    public CategoryDto getById(@PathVariable @NotNull Long catId) throws ExceptionNotFound {
+    public CategoryDto getById(@PathVariable @NotNull Long catId) {
         log.info("getById category with id {}", catId);
         return categoryMapper.toDto(categoryService.getById(catId));
     }

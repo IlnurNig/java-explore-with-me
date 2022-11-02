@@ -28,7 +28,7 @@ public class ParticipationRequestService {
         this.eventService = eventService;
     }
 
-    public ParticipationRequest create(ParticipationRequest request) throws ExceptionConflict {
+    public ParticipationRequest create(ParticipationRequest request) {
         log.info("create ParticipationRequest: {}", request);
 
         if (request.getRequester().getId() == request.getEvent().getInitiator().getId()) {
@@ -61,7 +61,7 @@ public class ParticipationRequestService {
         return requestRepository.save(request);
     }
 
-    public ParticipationRequest getById(Long id) throws ExceptionNotFound {
+    public ParticipationRequest getById(Long id) {
         log.info("getById ParticipationRequest with id: {}", id);
         return requestRepository.findById(id).orElseThrow(() ->
                 new ExceptionNotFound(String.format("Participation Request with id=%d exist", id)));
@@ -72,7 +72,7 @@ public class ParticipationRequestService {
         return requestRepository.findAllByRequesterId(userId);
     }
 
-    public ParticipationRequest cancel(Long requestId, Long userId) throws ExceptionNotFound, ExceptionBadRequest {
+    public ParticipationRequest cancel(Long requestId, Long userId) {
         log.info("cancel ParticipationRequest with requestId: {}, userId: {}", userId, requestId);
 
         ParticipationRequest request = getById(requestId);

@@ -16,7 +16,6 @@ import ru.practicum.statsClient.dto.ViewStats;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +58,7 @@ public class StatsClient {
             return objectMapper.readValue(body, new TypeReference<List<ViewStats>>() {
             });
         }
-        return new ArrayList<>();
+        return List.of();
     }
 
 }

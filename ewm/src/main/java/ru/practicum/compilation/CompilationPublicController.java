@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.compilation.dto.CompilationDto;
 import ru.practicum.compilation.dto.CompilationMapper;
 import ru.practicum.compilation.service.CompilationService;
-import ru.practicum.exception.exceptionClass.ExceptionNotFound;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -30,7 +29,7 @@ public class CompilationPublicController {
     }
 
     @GetMapping("{id}")
-    public CompilationDto get(@PathVariable @NotNull Long id) throws ExceptionNotFound {
+    public CompilationDto get(@PathVariable @NotNull Long id) {
         log.info("get compilation with id: {}", id);
         return compilationMapper.toDto(compilationService.getById(id));
     }
