@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "categories")
-@Audited
 @ToString
 public class Category {
     @Id
@@ -23,6 +22,7 @@ public class Category {
 
     @NotBlank
     @Size(max = 255)
+    @Audited
     private String name;
 
 }
