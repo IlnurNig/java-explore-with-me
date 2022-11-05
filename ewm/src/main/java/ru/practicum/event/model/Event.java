@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
 @Getter
 @Setter
@@ -35,48 +37,48 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-//    @Audited(targetAuditMode = NOT_AUDITED)
+    @Audited(targetAuditMode = NOT_AUDITED)
     private Category category;
 
     @CreationTimestamp
     private LocalDateTime createdOn;
 
     @Column(length = 2048)
-//    @Audited
+    @Audited
     private String description;
 
-    //    @Audited
+    @Audited
     private LocalDateTime eventDate;
 
     @ManyToOne
     @JoinColumn(name = "initiator_id")
     private User initiator;
 
-    //    @Audited
+    @Audited
     private Double lat;
 
-    //    @Audited
+    @Audited
     private Double lon;
 
-    //    @Audited
+    @Audited
     private Boolean paid;
 
-    //    @Audited
+    @Audited
     private Integer participantLimit;
 
     private LocalDateTime publishedOn;
 
-    //    @Audited
+    @Audited
     private Boolean requestModeration;
 
-    //    @Audited
+    @Audited
     @Enumerated(EnumType.STRING)
     private EventState state;
 
     @NotBlank
     @Size(max = 120)
     @Size(min = 3)
-//    @Audited
+    @Audited
     private String title;
 
     @OneToMany(mappedBy = "event",

@@ -1,5 +1,5 @@
--- DROP TABLE IF EXISTS events_aud, comments_aud, categories_aud, comments, compilation_event, compilations,
---     participation_requests, events, categories, users CASCADE;
+DROP TABLE IF EXISTS events_aud, comments_aud, categories_aud, comments, compilation_event, compilations,
+    participation_requests, events, categories, users CASCADE;
 
 CREATE TABLE IF NOT EXISTS categories
 (
