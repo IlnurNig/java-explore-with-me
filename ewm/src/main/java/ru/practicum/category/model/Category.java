@@ -1,6 +1,7 @@
 package ru.practicum.category.model;
 
 import lombok.*;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,7 +14,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "categories")
-//@Audited
+@Audited
 @ToString
 public class Category {
     @Id
