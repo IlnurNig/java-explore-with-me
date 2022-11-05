@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.envers.Audited;
 import ru.practicum.category.model.Category;
 import ru.practicum.compilation.model.Compilation;
 import ru.practicum.participationRequest.model.ParticipationRequest;
@@ -16,8 +15,6 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Entity
 @Getter
@@ -32,53 +29,53 @@ public class Event {
     @NotBlank
     @Size(max = 2000)
     @Size(min = 20)
-    @Audited
+//    @Audited
     private String annotation;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @Audited(targetAuditMode = NOT_AUDITED)
+//    @Audited(targetAuditMode = NOT_AUDITED)
     private Category category;
 
     @CreationTimestamp
     private LocalDateTime createdOn;
 
     @Column(length = 2048)
-    @Audited
+//    @Audited
     private String description;
 
-    @Audited
+//    @Audited
     private LocalDateTime eventDate;
 
     @ManyToOne
     @JoinColumn(name = "initiator_id")
     private User initiator;
 
-    @Audited
+//    @Audited
     private Double lat;
 
-    @Audited
+//    @Audited
     private Double lon;
 
-    @Audited
+//    @Audited
     private Boolean paid;
 
-    @Audited
+//    @Audited
     private Integer participantLimit;
 
     private LocalDateTime publishedOn;
 
-    @Audited
+//    @Audited
     private Boolean requestModeration;
 
-    @Audited
+//    @Audited
     @Enumerated(EnumType.STRING)
     private EventState state;
 
     @NotBlank
     @Size(max = 120)
     @Size(min = 3)
-    @Audited
+//    @Audited
     private String title;
 
     @OneToMany(mappedBy = "event",

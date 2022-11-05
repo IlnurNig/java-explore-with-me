@@ -2,7 +2,6 @@ package ru.practicum.comment.model;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.envers.Audited;
 import ru.practicum.event.model.Event;
 import ru.practicum.user.model.User;
 
@@ -26,7 +25,7 @@ public class Comment {
 
     @NotBlank
     @Size(max = 2000)
-    @Audited
+//    @Audited
     private String description;
 
     @CreationTimestamp
