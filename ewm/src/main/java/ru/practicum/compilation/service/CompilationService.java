@@ -32,7 +32,7 @@ public class CompilationService {
         return compilationRepository.save(compilation);
     }
 
-    public Compilation getById(Long id) throws ExceptionNotFound {
+    public Compilation getById(Long id) {
         log.info("get compilation with id: {}", id);
         return compilationRepository.findById(id)
                 .orElseThrow(() -> new ExceptionNotFound(String.format("Compilation with id=%d is not found", id)));
@@ -54,7 +54,7 @@ public class CompilationService {
         compilationRepository.deleteById(id);
     }
 
-    public void addEvent(Long eventId, Long compId) throws ExceptionNotFound {
+    public void addEvent(Long eventId, Long compId) {
         log.info("add event id {} compilation with id: {}", eventId, compId);
         Compilation compilation = getById(compId);
         Event event = eventService.getById(eventId);
@@ -62,7 +62,7 @@ public class CompilationService {
         compilationRepository.save(compilation);
     }
 
-    public void deleteEvent(Long eventId, Long compId) throws ExceptionNotFound {
+    public void deleteEvent(Long eventId, Long compId) {
         log.info("delete event id {} compilation with id: {}", eventId, compId);
         Compilation compilation = getById(compId);
         Event event = eventService.getById(eventId);
@@ -70,7 +70,7 @@ public class CompilationService {
         compilationRepository.save(compilation);
     }
 
-    public void pinCompilation(Long compId, boolean pinned) throws ExceptionNotFound {
+    public void pinCompilation(Long compId, boolean pinned) {
         log.info("pin compilation with id: {} and pinned: {}", compId, pinned);
         Compilation compilation = getById(compId);
         compilation.setPinned(pinned);

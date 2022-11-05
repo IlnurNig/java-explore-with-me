@@ -10,9 +10,10 @@ import ru.practicum.participationRequest.model.ParticipationRequest;
 import ru.practicum.user.model.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -25,7 +26,9 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 2048)
+    @NotBlank
+    @Size(max = 2000)
+    @Size(min = 20)
     private String annotation;
 
     @ManyToOne
@@ -59,6 +62,9 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private EventState state;
 
+    @NotBlank
+    @Size(max = 120)
+    @Size(min = 3)
     private String title;
 
     @OneToMany(mappedBy = "event",
@@ -70,16 +76,4 @@ public class Event {
     @ManyToMany(mappedBy = "events")
     Set<Compilation> compilations = new HashSet<>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return Objects.equals(id, event.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

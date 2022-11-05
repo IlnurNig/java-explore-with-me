@@ -5,7 +5,9 @@ import lombok.Setter;
 import ru.practicum.event.model.Event;
 
 import javax.persistence.*;
-import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Getter
@@ -18,9 +20,11 @@ public class Compilation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private Boolean pinned;
 
-    @Column(length = 2048)
+    @NotBlank
+    @Size(max = 255)
     private String title;
 
     @ManyToMany
@@ -30,16 +34,4 @@ public class Compilation {
     )
     Set<Event> events;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Compilation that = (Compilation) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

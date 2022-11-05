@@ -8,7 +8,6 @@ import ru.practicum.user.model.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -34,16 +33,4 @@ public class ParticipationRequest {
     @Enumerated(EnumType.STRING)
     private RequestState state;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ParticipationRequest that = (ParticipationRequest) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

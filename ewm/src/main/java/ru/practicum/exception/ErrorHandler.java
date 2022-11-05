@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.practicum.exception.exceptionClass.ExceptionBadRequest;
-import ru.practicum.exception.exceptionClass.ExceptionConflict;
-import ru.practicum.exception.exceptionClass.ExceptionInteralServerError;
-import ru.practicum.exception.exceptionClass.ExceptionNotFound;
+import ru.practicum.exception.exceptionClass.*;
 import ru.practicum.exception.model.ErrorResponse;
 
 
@@ -40,6 +37,13 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse exceptionInternalServerError(final ExceptionInteralServerError e) {
+        log.error(e.getMessage());
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse exceptionForbidden(final ExceptionForbidden e) {
         log.error(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }

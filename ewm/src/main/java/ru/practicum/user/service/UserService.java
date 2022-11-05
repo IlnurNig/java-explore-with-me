@@ -23,7 +23,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(User user) throws ExceptionConflict {
+    public User createUser(User user) {
         log.info("createUser: {}", user);
         try {
             return userRepository.save(user);
@@ -33,7 +33,7 @@ public class UserService {
         }
     }
 
-    public User getById(long id) throws ExceptionNotFound {
+    public User getById(long id) {
         log.info("get user by id: {}", id);
         return userRepository.findById(id).orElseThrow(
                 () -> new ExceptionNotFound(String.format("user with Id=%d is missing", id)));
@@ -50,7 +50,7 @@ public class UserService {
         return userRepository.findAllByIdIn(listId, pageable);
     }
 
-    public void deleteUser(Long id) throws ExceptionNotFound {
+    public void deleteUser(Long id) {
         log.info("deleteUser with id: {}", id);
         try {
             userRepository.deleteById(id);

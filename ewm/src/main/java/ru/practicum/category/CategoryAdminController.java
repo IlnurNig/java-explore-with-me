@@ -8,7 +8,6 @@ import ru.practicum.category.dto.CategoryDto;
 import ru.practicum.category.dto.CategoryMapper;
 import ru.practicum.category.model.Category;
 import ru.practicum.category.service.CategoryService;
-import ru.practicum.exception.exceptionClass.ExceptionNotFound;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -36,13 +35,13 @@ public class CategoryAdminController {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable @NotNull Long id) throws ExceptionNotFound {
+    public void delete(@PathVariable @NotNull Long id) {
         log.info("delete category with id {}", id);
         categoryService.delete(id);
     }
 
     @PatchMapping
-    public CategoryDto update(@Valid @RequestBody CategoryDto categoryDto) throws ExceptionNotFound {
+    public CategoryDto update(@Valid @RequestBody CategoryDto categoryDto) {
         log.info("Update category {}", categoryDto);
         Category category = categoryMapper.toEntity(categoryDto);
         return categoryMapper.toDto(categoryService.update(category));

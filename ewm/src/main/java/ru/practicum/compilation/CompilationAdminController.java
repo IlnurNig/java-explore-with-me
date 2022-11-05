@@ -9,7 +9,6 @@ import ru.practicum.compilation.dto.CompilationMapper;
 import ru.practicum.compilation.dto.NewCompilationDto;
 import ru.practicum.compilation.model.Compilation;
 import ru.practicum.compilation.service.CompilationService;
-import ru.practicum.exception.exceptionClass.ExceptionNotFound;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -45,27 +44,26 @@ public class CompilationAdminController {
 
     @PatchMapping("{compId}/events/{eventId}")
     public void addEvent(@PathVariable @NotNull Long eventId,
-                         @PathVariable @NotNull Long compId) throws ExceptionNotFound {
+                         @PathVariable @NotNull Long compId) {
         log.info("add event id {} compilation with id: {}", eventId, compId);
         compilationService.addEvent(eventId, compId);
     }
 
     @DeleteMapping("{compId}/events/{eventId}")
     public void deleteEvent(@PathVariable @NotNull Long eventId,
-                            @PathVariable @NotNull Long compId)
-            throws ExceptionNotFound {
+                            @PathVariable @NotNull Long compId) {
         log.info("delete event id {} compilation with id: {}", eventId, compId);
         compilationService.deleteEvent(eventId, compId);
     }
 
     @DeleteMapping("{compId}/pin")
-    public void unpin(@PathVariable @NotNull Long compId) throws ExceptionNotFound {
+    public void unpin(@PathVariable @NotNull Long compId) {
         log.info("unpin compilation with id: {}", compId);
         compilationService.pinCompilation(compId, false);
     }
 
     @PatchMapping("{compId}/pin")
-    public void pin(@PathVariable @NotNull Long compId) throws ExceptionNotFound {
+    public void pin(@PathVariable @NotNull Long compId) {
         log.info("pin compilation with id: {}", compId);
         compilationService.pinCompilation(compId, true);
     }

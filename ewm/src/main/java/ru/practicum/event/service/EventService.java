@@ -13,6 +13,7 @@ import ru.practicum.event.repository.EventCriteriaRepository;
 import ru.practicum.event.repository.EventRepository;
 import ru.practicum.exception.exceptionClass.ExceptionBadRequest;
 import ru.practicum.exception.exceptionClass.ExceptionConflict;
+import ru.practicum.exception.exceptionClass.ExceptionForbidden;
 import ru.practicum.exception.exceptionClass.ExceptionNotFound;
 import ru.practicum.participationRequest.model.ParticipationRequest;
 import ru.practicum.participationRequest.model.RequestState;
@@ -47,7 +48,7 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public Event getById(Long eventId) throws ExceptionNotFound {
+    public Event getById(Long eventId) {
         log.info("get event with eventId: {}", eventId);
         return eventRepository.findById(eventId).orElseThrow(() -> new ExceptionNotFound(
                 String.format("Event with eventId=%d is missing", eventId)));
@@ -62,7 +63,7 @@ public class EventService {
         return eventRepository.findAllByIdIn(idx);
     }
 
-    public Event getByIdAndInitiatorId(Long userId, Long eventId) throws ExceptionNotFound {
+    public Event getByIdAndInitiatorId(Long userId, Long eventId) {
         log.info("getByIdAndInitiatorId with userId: {}, eventId:{}", userId, eventId);
         return eventRepository.findByIdAndInitiatorId(eventId, userId)
                 .orElseThrow(() -> new ExceptionNotFound(
@@ -82,21 +83,21 @@ public class EventService {
         return eventCriteriaRepository.findAllByCriteria(criteria);
     }
 
-    public Event update(Event event) throws ExceptionNotFound {
+    public Event update(Event event) {
         log.info("update event {}", event);
         Event oldEvent = getById(event.getId());
         eventMapper.updateEventIgnoreNull(event, oldEvent);
         return eventRepository.save(oldEvent);
     }
 
-    public Event cancelEvent(Long userId, Long eventId) throws ExceptionNotFound {
+    public Event cancelEvent(Long userId, Long eventId) {
         log.info("cancel event with userId: {}, eventId: {}", userId, eventId);
         Event event = getByIdAndInitiatorId(userId, eventId);
         event.setState(EventState.CANCELED);
         return eventRepository.save(event);
     }
 
-    public Event setStateEvent(Long eventId, EventState state) throws ExceptionNotFound {
+    public Event setStateEvent(Long eventId, EventState state) {
         log.info("set event {} state {}", eventId, state);
         Event event = getById(eventId);
         event.setState(state);
@@ -106,31 +107,21 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public List<ParticipationRequest> getRequestsByUserIdAndEventId(Long userId, Long eventId)
-            throws ExceptionNotFound {
+    public List<ParticipationRequest> getRequestsByUserIdAndEventId(Long userId, Long eventId) {
         log.info("get request by userId: {}, eventId: {}", userId, eventId);
         Event event = getById(eventId);
         return new ArrayList<>(event.getRequests());
-
-//        Оставил код закоментированным. Если код раскоментировать не проходят тесты в постман.
-//        метод реализован для: /users/{userId}/events/{eventId}/requests
-//        "Получение информации о запросах на участие в событии текущего пользователя"
-//
-//        return event.getRequests().stream()
-//                .filter(a -> a.getRequester().getId() == userId)
-//                .collect(Collectors.toList());
     }
 
 
-    public ParticipationRequest confirmRequest(Long reqId, Long userId, Long eventId)
-            throws ExceptionNotFound, ExceptionConflict, ExceptionBadRequest {
+    public ParticipationRequest confirmRequest(Long reqId, Long userId, Long eventId) {
 
         log.info("confirm request with reqId: {}, userId: {}, eventId: {}", reqId, userId, eventId);
 
         Event event = getById(eventId);
 
         if (!Objects.equals(event.getInitiator().getId(), userId)) {
-            throw new ExceptionBadRequest("only the author of the event can confirm the application");
+            throw new ExceptionForbidden("only the author of the event can confirm the application");
         }
 
         if (isExceededLimitRequests(event)) {
@@ -151,8 +142,7 @@ public class EventService {
         return request;
     }
 
-    public ParticipationRequest rejectRequest(Long reqId, Long userId, Long eventId)
-            throws ExceptionNotFound, ExceptionBadRequest {
+    public ParticipationRequest rejectRequest(Long reqId, Long userId, Long eventId) {
 
         log.info("reject request with reqId: {}, userId: {}, eventId: {}", reqId, userId, eventId);
 
@@ -173,7 +163,7 @@ public class EventService {
         return request;
     }
 
-    public Event getByIdAndState(Long eventId, EventState eventState) throws ExceptionNotFound {
+    public Event getByIdAndState(Long eventId, EventState eventState) {
         log.info("getByIdAndState with eventId: {}, eventState: {}", eventId, eventState);
 
         return eventRepository.findByIdAndState(eventId, eventState)

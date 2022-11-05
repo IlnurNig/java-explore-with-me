@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,9 +16,11 @@ public class EndpointHit {
     private Long id;
 
     @NotBlank
+    @Size(max = 255)
     private String app;
 
     @NotBlank
+    @Size(max = 255)
     private String uri;
 
     @NotBlank

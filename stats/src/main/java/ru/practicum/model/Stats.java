@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,10 +18,15 @@ public class Stats {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(max = 255)
     private String app;
 
+    @NotBlank
+    @Size(max = 255)
     private String uri;
 
+    @NotBlank
     private String ip;
 
     @CreationTimestamp
