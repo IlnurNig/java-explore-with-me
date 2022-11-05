@@ -11,6 +11,9 @@ import ru.practicum.category.service.CategoryService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+import java.util.List;
 
 @RestController
 @Validated
@@ -45,6 +48,14 @@ public class CategoryAdminController {
         log.info("Update category {}", categoryDto);
         Category category = categoryMapper.toEntity(categoryDto);
         return categoryMapper.toDto(categoryService.update(category));
+    }
+
+    @GetMapping("/audit/{catId}")
+    public List getAuditById(@PathVariable @NotNull Long catId,
+                             @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
+                             @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
+        log.info("get audit category by id {}", catId);
+        return categoryService.getAuditById(catId, from, size);
     }
 
 }
