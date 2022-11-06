@@ -87,4 +87,11 @@ public class EventAdminController {
         return eventMapper.toFullDto(eventService.update(event));
     }
 
+    @GetMapping("/audit/{eventId}")
+    public List getAuditById(@PathVariable @NotNull Long eventId,
+                             @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
+                             @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
+        log.info("get audit event by id {}", eventId);
+        return eventService.getAuditById(eventId, from, size);
+    }
 }

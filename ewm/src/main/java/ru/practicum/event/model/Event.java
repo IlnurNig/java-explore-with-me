@@ -29,41 +29,53 @@ public class Event {
     @NotBlank
     @Size(max = 2000)
     @Size(min = 20)
+//    @Audited
     private String annotation;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+//    @Audited(targetAuditMode = NOT_AUDITED)
     private Category category;
 
     @CreationTimestamp
     private LocalDateTime createdOn;
 
+    @Column(length = 2048)
+//    @Audited
     private String description;
 
+//    @Audited
     private LocalDateTime eventDate;
 
     @ManyToOne
     @JoinColumn(name = "initiator_id")
     private User initiator;
 
+//    @Audited
     private Double lat;
 
+//    @Audited
     private Double lon;
 
+//    @Audited
     private Boolean paid;
 
+//    @Audited
     private Integer participantLimit;
 
     private LocalDateTime publishedOn;
 
+//    @Audited
     private Boolean requestModeration;
 
+//    @Audited
     @Enumerated(EnumType.STRING)
     private EventState state;
 
     @NotBlank
     @Size(max = 120)
     @Size(min = 3)
+//    @Audited
     private String title;
 
     @OneToMany(mappedBy = "event",

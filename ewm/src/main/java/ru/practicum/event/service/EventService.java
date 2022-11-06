@@ -1,10 +1,14 @@
 package ru.practicum.event.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.query.AuditEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.event.dto.EventMapper;
 import ru.practicum.event.model.Criteria;
 import ru.practicum.event.model.Event;
@@ -18,6 +22,8 @@ import ru.practicum.exception.exceptionClass.ExceptionNotFound;
 import ru.practicum.participationRequest.model.ParticipationRequest;
 import ru.practicum.participationRequest.model.RequestState;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -31,14 +37,16 @@ public class EventService {
 
     private final EventMapper eventMapper;
 
+    private final AuditReader auditReader;
 
     @Autowired
     public EventService(EventRepository eventRepository,
                         EventCriteriaRepository eventCriteriaRepository,
-                        EventMapper mapper) {
+                        EventMapper mapper, AuditReader auditReader) {
         this.eventRepository = eventRepository;
         this.eventCriteriaRepository = eventCriteriaRepository;
         this.eventMapper = mapper;
+        this.auditReader = auditReader;
     }
 
 
@@ -181,6 +189,19 @@ public class EventService {
 
         return event.getRequests().stream().filter(r -> r.getState() == RequestState.CONFIRMED).count()
                 >= event.getParticipantLimit();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public List getAuditById(@Positive Long id,
+                             @PositiveOrZero Integer from,
+                             @Positive Integer size) {
+        return auditReader
+                .createQuery()
+                .forRevisionsOfEntity(Event.class, false, true)
+                .add(AuditEntity.id().eq(id))
+                .setFirstResult(from)
+                .setMaxResults(size)
+                .getResultList();
     }
 
 }

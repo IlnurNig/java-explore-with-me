@@ -1,14 +1,20 @@
 package ru.practicum.category.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.query.AuditEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.category.model.Category;
 import ru.practicum.category.repository.CategoryRepository;
 import ru.practicum.exception.exceptionClass.ExceptionNotFound;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Service
@@ -16,9 +22,12 @@ import java.util.List;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
+    private final AuditReader auditReader;
+
     @Autowired
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, AuditReader auditReader) {
         this.categoryRepository = categoryRepository;
+        this.auditReader = auditReader;
     }
 
     public Category create(Category category) {
@@ -63,4 +72,18 @@ public class CategoryService {
         log.info("check contains category id {}", id);
         return categoryRepository.findById(id).isEmpty();
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public List getAuditById(@Positive Long id,
+                             @PositiveOrZero Integer from,
+                             @Positive Integer size) {
+        return auditReader
+                .createQuery()
+                .forRevisionsOfEntity(Category.class, false, true)
+                .add(AuditEntity.id().eq(id))
+                .setFirstResult(from)
+                .setMaxResults(size)
+                .getResultList();
+    }
+
 }
