@@ -1,7 +1,6 @@
 package ru.practicum.category.model;
 
 import lombok.*;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -22,7 +21,7 @@ public class Category {
 
     @NotBlank
     @Size(max = 255)
-    @Audited
+//    @Audited
     private String name;
 
 }

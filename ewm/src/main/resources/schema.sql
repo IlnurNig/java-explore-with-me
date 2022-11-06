@@ -103,16 +103,22 @@ CREATE TABLE IF NOT EXISTS categories_aud
     rev     bigint not null,
     revtype smallint,
     name    varchar(255),
+
     primary key (id, rev),
     CONSTRAINT fk_rev_id FOREIGN KEY (rev) REFERENCES revinfo (rev)
 );
 
 CREATE TABLE IF NOT EXISTS comments_aud
 (
-    id          bigint not null,
-    rev         bigint not null,
-    revtype     smallint,
-    description varchar(255),
+    id             bigint not null,
+    rev            bigint not null,
+    revtype        smallint,
+    description    TEXT,
+    published_on   TIMESTAMP,
+    update_on      TIMESTAMP,
+    event_id       BIGINT,
+    commentator_id BIGINT,
+
     primary key (id, rev),
     CONSTRAINT fk_comments_aud FOREIGN KEY (rev) REFERENCES revinfo (rev)
 );
@@ -133,6 +139,7 @@ CREATE TABLE IF NOT EXISTS events_aud
     state              varchar(50),
     title              varchar(256),
     category_id        bigint,
+
     primary key (id, rev),
     CONSTRAINT fk_events_aud FOREIGN KEY (rev) REFERENCES revinfo (rev)
 );
